@@ -6,15 +6,20 @@ const repositorySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    url: {
+    userId: {
       type: String,
-      requeired: true,
-      unique: true,
+      required: true,
     },
-    userId: { type: String, required: true },
+    subjectId: {
+      type: String,
+      require: true,
+    },
+    result: {
+      type: Array,
+    },
   },
   {
     timestamps: true,
   }
 );
-export default mongoose.model("Repository", repositorySchema);
+export default mongoose.model("Task", repositorySchema);

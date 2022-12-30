@@ -1,17 +1,16 @@
 import mongoose from "mongoose";
 
-const subjectSchema = new mongoose.Schema(
+const resultSchema = new mongoose.Schema(
   {
-    name: {
+    userId: {
       type: String,
       required: true,
     },
-    adminId: {
+    taskId: {
       type: String,
-      required: true,
+      require: true,
     },
-
-    tasks: {
+    result: {
       type: Array,
     },
   },
@@ -19,4 +18,4 @@ const subjectSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-export default mongoose.model("Subjects", subjectSchema);
+export default mongoose.model("Result", resultSchema);

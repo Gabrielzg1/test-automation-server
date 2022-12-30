@@ -1,6 +1,7 @@
 import Users from "../models/Users";
 import Subjects from "../models/Subjects";
 import Admin from "../models/Admin";
+import createFolder from "../scripts/folders/newSubject";
 
 class SubjectsController {
   async index_user(req, res) {
@@ -46,7 +47,6 @@ class SubjectsController {
     try {
       const { admin_id } = req.params;
       const { name } = req.body;
-      console.log(admin_id);
 
       if (!name) res.json({ msg: "nome Obrigatório" });
       if (!admin_id) res.json({ msg: "Admin id falho" });
@@ -70,6 +70,7 @@ class SubjectsController {
         name,
         adminId: admin_id,
       });
+      createFolder(name);
       return res.status(201).json(newSubject);
     } catch (err) {
       console.error(err);
@@ -81,7 +82,7 @@ class SubjectsController {
       const { admin_id, id } = req.params;
       const admin = await Users.findById(admin_id);
       if (!admin) {
-        return res.status(404).json({ msg: "User not found" });
+        return res.status(404).json({ msg: "Admin not found" });
       }
       const subjects = await Subjects.findOne({
         adminId: admin_id,

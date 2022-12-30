@@ -1,12 +1,8 @@
 import mongoose from "mongoose";
 
-const repositorySchema = new mongoose.Schema(
+const taskSchema = new mongoose.Schema(
   {
     name: {
-      type: String,
-      required: true,
-    },
-    userId: {
       type: String,
       required: true,
     },
@@ -14,7 +10,7 @@ const repositorySchema = new mongoose.Schema(
       type: String,
       require: true,
     },
-    result: {
+    users: {
       type: Array,
     },
   },
@@ -22,4 +18,4 @@ const repositorySchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-export default mongoose.model("Task", repositorySchema);
+export default mongoose.model("Task", taskSchema);

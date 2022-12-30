@@ -1,41 +1,21 @@
 import Users from "../models/Users";
 import Subjects from "../models/Subjects";
-import Admin from "../models/Admin";
+import Task from "../models/Task";
+import createTask from "../scripts/folders/newTask";
 
-class SubjectsController {
-  async index_user(req, res) {
+class TaskController {
+  async index(req, res) {
     try {
-      const { user_id } = req.params;
-      const user = await Users.findById(user_id);
-
-      if (!user) {
-        return res.status(404).json({ msg: "User not Found" });
+      const { subject_id } = req.params;
+      const subject = await Subjects.findById(subject_id);
+      if (!subject) {
+        return res.status(404).json({ msg: "Subject not Found" });
       }
-
-      const subjects = await Subjects.find({
-        userId: user_id,
+      const task = await Task.find({
+        subjectId: subject_id,
       });
 
-      return res.json(subjects);
-    } catch (err) {
-      console.error(err);
-      return res.status(500).json({ error: "Internal server error" });
-    }
-  }
-  async index_admin(req, res) {
-    try {
-      const { admin_id } = req.params;
-      const admin = await Admin.findById(admin_id);
-
-      if (!admin) {
-        return res.status(404).json({ msg: "Admin not Found" });
-      }
-
-      const subjects = await Subjects.find({
-        adminId: admin_id,
-      });
-
-      return res.json(subjects);
+      return res.json(task);
     } catch (err) {
       console.error(err);
       return res.status(500).json({ error: "Internal server error" });
@@ -44,33 +24,26 @@ class SubjectsController {
 
   async create(req, res) {
     try {
-      const { admin_id } = req.params;
+      const { subject_id } = req.params;
       const { name } = req.body;
-      console.log(admin_id);
 
       if (!name) res.json({ msg: "nome Obrigatório" });
-      if (!admin_id) res.json({ msg: "Admin id falho" });
 
-      const admin = await Admin.findById(admin_id);
+      const subjects = await Subjects.findById(subject_id);
 
-      if (!admin) {
-        return res.status(404).json("Usuário não encontrado");
+      if (!subjects) {
+        return res.status(404).json({ msg: "Subject not found" });
       }
-      const subjects = await Subjects.findOne({
-        name,
-        adminId: admin_id,
-      });
-
-      if (subjects) {
-        return res
-          .status(422)
-          .json({ message: `Subject ${name} already exist` });
+      const task = await Task.findOne({ name, subjectId: subject_id });
+      if (task) {
+        return res.status(422).json({ message: `Task ${name} alreary exists` });
       }
-      const newSubject = await Subjects.create({
+      const newTask = await Task.create({
         name,
-        adminId: admin_id,
+        subjectId: subject_id,
       });
-      return res.status(201).json(newSubject);
+      createTask(subjects.name, name);
+      return res.status(201).json(newTask);
     } catch (err) {
       console.error(err);
       return res.status(500).json({ error: "Internal server error" });
@@ -78,19 +51,25 @@ class SubjectsController {
   }
   async destroy(req, res) {
     try {
-      const { admin_id, id } = req.params;
-      const admin = await Users.findById(admin_id);
-      if (!admin) {
+      const { user_id, subject_id, id } = req.params;
+      const user = await Users.findById(user_id);
+      const subject = await Subjects.findById(subject_id);
+      if (!user) {
         return res.status(404).json({ msg: "User not found" });
       }
-      const subjects = await Subjects.findOne({
-        adminId: admin_id,
-        id: id,
-      });
-      if (!subjects) {
+      if (!subject) {
         return res.status(404).json({ msg: "Subject not found" });
       }
-      await subjects.deleteOne();
+
+      const task = await Task.findOne({
+        userId: user_id,
+        subjectId: subject_id,
+        id,
+      });
+      if (!task) {
+        return res.status(404).json({ msg: "Subject not found" });
+      }
+      await task.deleteOne();
       return res.status(200).json();
     } catch (err) {
       console.error(err);
@@ -98,4 +77,4 @@ class SubjectsController {
     }
   }
 }
-export default new SubjectsController();
+export default new TaskController();

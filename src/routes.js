@@ -3,7 +3,7 @@ import { Router } from "express";
 import HelloController from "./controllers/HelloController";
 import SubjectsController from "./controllers/SubjectsController";
 import UsersController from "./controllers/UsersController";
-import SessionController from "./controllers/SessionController";
+import AdminSessionController from "./controllers/AdminSessionController";
 import AdminController from "./controllers/AdminController";
 import TaskController from "./controllers/TaskController";
 import ResultController from "./controllers/ResultController";
@@ -14,7 +14,7 @@ import auth from "./middleware/auth";
 const routes = new Router();
 //Rotas publicas
 routes.get("/hello", HelloController.index);
-routes.post("/sessions", SessionController.create);
+routes.post("/adminSession", AdminSessionController.create);
 routes.post("/userSession", UserSessionController.create);
 
 routes.use(auth);

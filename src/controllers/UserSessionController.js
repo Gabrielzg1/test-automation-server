@@ -17,6 +17,7 @@ class SessionController {
       return res.status(401).json({ error: "password invalid" });
     }
     const { id } = user;
+    console.log("Sucessful", email);
     return res.json({
       user: {
         id,

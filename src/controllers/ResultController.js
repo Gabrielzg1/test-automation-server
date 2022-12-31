@@ -4,7 +4,7 @@ import Task from "../models/Task";
 import createTask from "../scripts/folders/newTask";
 import Result from "../models/Result";
 
-class TaskController {
+class ResultController {
   async index(req, res) {
     try {
       const { user_id, task_id } = req.params;
@@ -75,4 +75,4 @@ class TaskController {
     }
   }
 }
-export default new TaskController();
+export default new ResultController();

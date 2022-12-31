@@ -37,8 +37,8 @@ class AdminController {
       //crypt the password
       const encryptedPassword = await bcrypt.hash(password, 8);
       const newAdmin = await Admin.create({
-        username,
-        email,
+        username: username.toUpperCase(),
+        email: email.toLowerCase(),
         password: encryptedPassword,
       });
 
@@ -56,10 +56,13 @@ class AdminController {
       const admin = await Admin.findById(id);
 
       if (!admin) {
-        return res.status(404).json();
+        return res.status(404).json({ msg: "Admin not found" });
       }
       const encryptedPassword = await bcrypt.hash(password, 8);
-      await admin.updateOne({ email, password: encryptedPassword });
+      await admin.updateOne({
+        email: email.toLowerCase(),
+        password: encryptedPassword,
+      });
 
       return res.status(200).json();
     } catch (err) {

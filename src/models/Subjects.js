@@ -14,6 +14,9 @@ const subjectSchema = new mongoose.Schema(
     tasks: {
       type: Array,
     },
+    users: {
+      type: Array,
+    },
   },
   {
     timestamps: true,

@@ -38,11 +38,17 @@ class TaskController {
       if (task) {
         return res.status(422).json({ message: `Task ${name} alreary exists` });
       }
+
       const newTask = await Task.create({
-        name,
+        name: name.toUpperCase(),
         subjectId: subject_id,
+        users: subjects.users,
       });
-      createTask(subjects.name, name);
+      const newtTask_ = subjects.tasks;
+      newtTask_.push(name);
+      await subjects.updateOne({ tasks: newtTask_ });
+
+      //createTask(subjects.name, name);
       return res.status(201).json(newTask);
     } catch (err) {
       console.error(err);

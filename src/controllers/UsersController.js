@@ -38,8 +38,8 @@ class UsersController {
       //crypt the password
       const encryptedPassword = await bcrypt.hash(password, 8);
       const newUser = await User.create({
-        username,
-        email,
+        username: username.toUpperCase(),
+        email: email.toLowerCase(),
         password: encryptedPassword,
       });
 

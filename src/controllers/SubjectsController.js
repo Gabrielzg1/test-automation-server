@@ -4,25 +4,6 @@ import Admin from "../models/Admin";
 import createFolder from "../scripts/folders/newSubject";
 
 class SubjectsController {
-  async index_user(req, res) {
-    try {
-      const { user_id } = req.params;
-      const user = await Users.findById(user_id);
-
-      if (!user) {
-        return res.status(404).json({ msg: "User not Found" });
-      }
-
-      const subjects = await Subjects.find({
-        userId: user_id,
-      });
-
-      return res.json(subjects);
-    } catch (err) {
-      console.error(err);
-      return res.status(500).json({ error: "Internal server error" });
-    }
-  }
   async index_admin(req, res) {
     try {
       const { admin_id } = req.params;
@@ -46,7 +27,7 @@ class SubjectsController {
   async create(req, res) {
     try {
       const { admin_id } = req.params;
-      const { name } = req.body;
+      const { name, users } = req.body;
 
       if (!name) res.json({ msg: "nome Obrigatório" });
       if (!admin_id) res.json({ msg: "Admin id falho" });
@@ -60,6 +41,9 @@ class SubjectsController {
         name,
         adminId: admin_id,
       });
+      const newSubjects = admin.subjects;
+      newSubjects.push(name);
+      await admin.updateOne({ subjects: newSubjects });
 
       if (subjects) {
         return res
@@ -67,10 +51,11 @@ class SubjectsController {
           .json({ message: `Subject ${name} already exist` });
       }
       const newSubject = await Subjects.create({
-        name,
+        name: name.toUpperCase(),
         adminId: admin_id,
+        users,
       });
-      createFolder(name);
+      //createFolder(name);
       return res.status(201).json(newSubject);
     } catch (err) {
       console.error(err);

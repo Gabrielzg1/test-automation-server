@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import Users from "../models/Users";
 import Admin from "../models/Admin";
 
 import { checkPassword } from "../services/auth";
@@ -11,7 +10,7 @@ class SessionController {
 
     const user = await Admin.findOne({ email });
     if (!user) {
-      return res.status(401).json({ error: "User / password invalid" });
+      return res.status(401).json({ error: "email / password invalid" });
     }
     if (!checkPassword(user, password)) {
       return res.status(401).json({ error: "password invalid" });

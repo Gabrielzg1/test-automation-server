@@ -7,6 +7,7 @@ import SessionController from "./controllers/SessionController";
 import AdminController from "./controllers/AdminController";
 import TaskController from "./controllers/TaskController";
 import ResultController from "./controllers/ResultController";
+import UserSessionController from "./controllers/UserSessionController";
 
 import auth from "./middleware/auth";
 
@@ -14,8 +15,9 @@ const routes = new Router();
 //Rotas publicas
 routes.get("/hello", HelloController.index);
 routes.post("/sessions", SessionController.create);
+routes.post("/userSession", UserSessionController.create);
 
-//routes.use(auth);
+routes.use(auth);
 
 //Rotas privadas
 //Users routes

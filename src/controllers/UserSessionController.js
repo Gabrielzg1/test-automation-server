@@ -9,7 +9,7 @@ class SessionController {
   async create(req, res) {
     const { email, password } = req.body;
 
-    const user = await Admin.findOne({ email });
+    const user = await Users.findOne({ email });
     if (!user) {
       return res.status(401).json({ error: "User / password invalid" });
     }
@@ -17,7 +17,6 @@ class SessionController {
       return res.status(401).json({ error: "password invalid" });
     }
     const { id } = user;
-    console.log("Sucessful", email);
     return res.json({
       user: {
         id,

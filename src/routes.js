@@ -17,7 +17,7 @@ routes.get("/hello", HelloController.index);
 routes.post("/adminSession", AdminSessionController.create);
 routes.post("/userSession", UserSessionController.create);
 
-routes.use(auth);
+//routes.use(auth);
 
 //Rotas privadas
 //Users routes

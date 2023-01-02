@@ -13,6 +13,9 @@ const taskSchema = new mongoose.Schema(
     users: {
       type: Array,
     },
+    feedback: {
+      type: Array,
+    },
   },
   {
     timestamps: true,

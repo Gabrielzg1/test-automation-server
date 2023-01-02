@@ -40,7 +40,7 @@ class TaskController {
       }
 
       const newTask = await Task.create({
-        name: name.toUpperCase(),
+        name,
         subjectId: subject_id,
         users: subjects.users,
       });
@@ -55,6 +55,22 @@ class TaskController {
       return res.status(500).json({ error: "Internal server error" });
     }
   }
+  async update(req, res) {
+    try {
+      const { id } = req.params;
+      const { feedback } = req.body;
+
+      const task = await Task.findById(id);
+      if (!task) return res.status(404).json({ msg: "Task not Found" });
+
+      await task.updateOne({ feedback });
+      return res.status(200).json();
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ err: "Internal server error" });
+    }
+  }
+
   async destroy(req, res) {
     try {
       const { user_id, subject_id, id } = req.params;

@@ -41,9 +41,6 @@ class SubjectsController {
         name,
         adminId: admin_id,
       });
-      const newSubjects = admin.subjects;
-      newSubjects.push(name);
-      await admin.updateOne({ subjects: newSubjects });
 
       if (subjects) {
         return res
@@ -51,10 +48,14 @@ class SubjectsController {
           .json({ message: `Subject ${name} already exist` });
       }
       const newSubject = await Subjects.create({
-        name: name.toUpperCase(),
+        name,
         adminId: admin_id,
         users,
       });
+      const newSubjects = admin.subjects;
+      newSubjects.push(name);
+      await admin.updateOne({ subjects: newSubjects });
+
       //createFolder(name);
       return res.status(201).json(newSubject);
     } catch (err) {

@@ -32,29 +32,30 @@ routes.delete("/users/:id", UsersController.destroy);
 routes.get("/admin/:admin_id/subjects", SubjectsController.index_admin);
 routes.post("/admin/:admin_id/subjects", SubjectsController.create);
 routes.delete(
-  "/admin/:admin_id/subjects/:id",
+	"/admin/:admin_id/subjects/:id",
 
-  SubjectsController.destroy
+	SubjectsController.destroy
 );
 
 //Tasks routes
 routes.get("/subjects/:subject_id/tasks", TaskController.index);
+routes.get("/subjects/:subject_id/tasks/:id", TaskController.show);
 routes.post("/subjects/:subject_id/tasks", TaskController.create);
 routes.delete(
-  "/users/:user_id/subjects/:subject_id/tasks/:id",
-  TaskController.destroy
+	"/users/:user_id/subjects/:subject_id/tasks/:id",
+	TaskController.destroy
 );
 routes.put(
-  "/users/:user_id/subjects/:subject_id/tasks/:id",
-  TaskController.update
+	"/users/:user_id/subjects/:subject_id/tasks/:id",
+	TaskController.update
 );
 
 //Result Routes
 routes.get("/user/:user_id/task/:task_id/result", ResultController.index);
 routes.post("/user/:user_id/task/task:id/result", ResultController.create);
 routes.delete(
-  "/user/:user_id/task/task:id/result/:id",
-  ResultController.destroy
+	"/user/:user_id/task/task:id/result/:id",
+	ResultController.destroy
 );
 
 //Admins Routes

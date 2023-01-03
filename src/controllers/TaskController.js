@@ -2,6 +2,8 @@ import Users from "../models/Users";
 import Subjects from "../models/Subjects";
 import Task from "../models/Task";
 import createTask from "../scripts/folders/newTask";
+import { writeInputs } from "../scripts/input/getInput";
+import generateOutputs from "../scripts/output/output-base";
 
 class TaskController {
 	async index(req, res) {
@@ -63,11 +65,23 @@ class TaskController {
 				tips,
 				description,
 			});
+
+			//Atualizar as Tasks dos usuarios
 			const newtTask_ = subjects.tasks;
 			newtTask_.push(name);
 			await subjects.updateOne({ tasks: newtTask_ });
 
-			//createTask(subjects.name, name);
+			//Create the task folder
+			await createTask(subjects.name, name);
+
+			//Write the inputs
+			await writeInputs(inputs.length, subjects.name, name);
+
+			// Generate the Base outputs
+			for (let i = 0; i < inputs.length; i++) {
+				await generateOutputs(i, subjects.name, name);
+			}
+
 			return res.status(201).json(newTask);
 		} catch (err) {
 			console.error(err);

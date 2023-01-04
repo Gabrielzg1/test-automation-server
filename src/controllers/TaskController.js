@@ -28,7 +28,6 @@ class TaskController {
 	async show(req, res) {
 		try {
 			const { subject_id, id } = req.params;
-			console.log(id);
 			const subject = Subjects.findById(subject_id);
 			if (!subject) return res.status(404).json({ msg: "Subject not found" });
 			const task = await Task.findById(id);
@@ -95,18 +94,34 @@ class TaskController {
 			return res.status(500).json({ error: "Internal server error" });
 		}
 	}
-	async update(req, res) {
+	async generateOutputs(req, res) {
 		try {
 			const { id, subject_id } = req.params;
 			const task = await Task.findById(id);
-			console.log(task.name);
 			const subject = await Subjects.findById(subject_id);
 			if (!task) return res.status(404).json({ msg: "Task not Found" });
 
 			// Generate the Base outputs
-			const outputs = new Array();
 			for (let i = 0; i < task.inputs.length; i++) {
 				await generateOutputs(i + 1, subject.name, task.name);
+			}
+			return res.status(200).json();
+		} catch (err) {
+			console.log(err);
+			res.status(500).json({ err: "Internal server error" });
+		}
+	}
+	async updateOutputs(req, res) {
+		try {
+			const { id, subject_id } = req.params;
+			const task = await Task.findById(id);
+			const subject = await Subjects.findById(subject_id);
+			if (!task) return res.status(404).json({ msg: "Task not Found" });
+			if (!subject) return res.status(404).json({ msg: "Subject Not Found" });
+
+			// Generate the Base outputs
+			const outputs = new Array();
+			for (let i = 0; i < task.inputs.length; i++) {
 				outputs.push(
 					await getOutputs(i + 1, subject.name, task.name).toString()
 				);

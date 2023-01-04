@@ -11,17 +11,23 @@ module.exports = async (subject, name) => {
 			fs.mkdirSync(newTask + "/upload");
 			fs.mkdirSync(newTask + "/out/base");
 			fs.mkdirSync(newTask + "/out/upload");
-
+			await fs.writeFile(
+				`./src/subjects/${subject}/${name}/main.py`,
+				" ",
+				(err) => {
+					if (err) console.log(err);
+				}
+			);
 			for (let i = 1; i < 11; i++) {
 				await fs.writeFile(
-					`./src/subjects/${subject}/${name}/main.py`,
+					`./src/subjects/${subject}/${name}/out/base/output_base${i}.txt`,
 					" ",
 					(err) => {
 						if (err) console.log(err);
 					}
 				);
 			}
-		} else alert("Já existe uma tarefa com esse nome");
+		}
 	} catch (err) {
 		console.error(err);
 	}

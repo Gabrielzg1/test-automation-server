@@ -92,11 +92,9 @@ class SubjectsController {
 			for (let i = 0; i < users.length; i++) {
 				const updateUser = await Users.findOne({ username: users[i] });
 				const upDated = updateUser.subjects;
-				console.log(upDated);
 
 				const index = upDated.indexOf(subjects.name);
 				upDated.splice(index, 1);
-				console.log(upDated);
 
 				await updateUser.updateOne({ subjects: upDated });
 			}

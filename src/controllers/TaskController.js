@@ -2,7 +2,7 @@ import Users from "../models/Users";
 import Subjects from "../models/Subjects";
 import Task from "../models/Task";
 import createTask from "../scripts/folders/newTask";
-import { writeInputs } from "../scripts/input/getInput";
+import fs from "fs";
 import generateOutputs from "../scripts/output/output-base";
 
 class TaskController {
@@ -75,11 +75,22 @@ class TaskController {
 			await createTask(subjects.name, name);
 
 			//Write the inputs
-			await writeInputs(inputs.length, subjects.name, name);
+			const generateInputs = async () => {
+				for (let i = 0; i < inputs.length; i++) {
+					fs.writeFile(
+						`./src/subjects/${subjects.name}/${name}/input/input${i + 1}.txt`,
+						inputs[i].split(" ").join("\n"),
+						(err) => {
+							if (err) console.log(err);
+						}
+					);
+				}
+			};
+			await generateInputs();
 
 			// Generate the Base outputs
 			for (let i = 0; i < inputs.length; i++) {
-				await generateOutputs(i, subjects.name, name);
+				await generateOutputs(i + 1, subjects.name, name);
 			}
 
 			return res.status(201).json(newTask);

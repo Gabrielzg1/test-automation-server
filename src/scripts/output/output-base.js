@@ -1,19 +1,27 @@
 const { spawn } = require("child_process");
 const fs = require("fs");
-const getInput = require("../input/getInput");
+import { getInputs } from "../input/getInput";
 
-module.exports = (number, subject, task) => {
+module.exports = async (number, subject, task) => {
+	await fs.writeFile(
+		`./src/subjects/${subject}/${task}/main.py`,
+		"print(10)",
+		(err) => {
+			if (err) console.log(err);
+		}
+	);
+
 	const pythonProcess = spawn("python3", [
-		`./subjects/${subject}/${task}/main.py`,
+		`./src/subjects/${subject}/${task}/main.py`,
 	]);
-	pythonProcess.stdin.write(getInput(number, subject, task).toString());
+	pythonProcess.stdin.write(getInputs(number, subject, task).toString());
 
 	pythonProcess.stdin.end();
 
 	pythonProcess.stdout.on("data", (data) => {
 		//console.log(`stdout (Base):\n${data}`);
 		fs.writeFile(
-			`./subjects/${subject}/${task}/out/base/output_base${number}.txt`,
+			`./src/subjects/${subject}/${task}/out/base/output_base${number}.txt`,
 			data,
 			(err) => {
 				if (err) throw err;

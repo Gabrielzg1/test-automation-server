@@ -65,7 +65,7 @@ class SubjectsController {
 			newSubjects.push(name);
 			await admin.updateOne({ subjects: newSubjects });
 
-			//createFolder(name);
+			createFolder(name);
 			return res.status(201).json(newSubject);
 		} catch (err) {
 			console.error(err);

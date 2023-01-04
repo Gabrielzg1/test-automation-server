@@ -41,10 +41,7 @@ routes.delete(
 routes.get("/subjects/:subject_id/tasks", TaskController.index);
 routes.get("/subjects/:subject_id/tasks/:id", TaskController.show);
 routes.post("/subjects/:subject_id/tasks", TaskController.create);
-routes.delete(
-	"/users/:user_id/subjects/:subject_id/tasks/:id",
-	TaskController.destroy
-);
+routes.delete("/subjects/:subject_id/tasks/:id", TaskController.destroy);
 routes.put(
 	"/subjects/:subject_id/tasks/:id/generateOutputs",
 	TaskController.generateOutputs

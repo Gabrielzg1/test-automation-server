@@ -2,7 +2,7 @@ import Users from "../models/Users";
 import Subjects from "../models/Subjects";
 import Task from "../models/Task";
 import createTask from "../scripts/folders/newTask";
-import fs from "fs";
+import fs from "fs-extra";
 import generateOutputs from "../scripts/output/output-base";
 import { getOutputs } from "../scripts/input/getInput";
 
@@ -136,24 +136,24 @@ class TaskController {
 
 	async destroy(req, res) {
 		try {
-			const { user_id, subject_id, id } = req.params;
-			const user = await Users.findById(user_id);
+			const { subject_id, id } = req.params;
 			const subject = await Subjects.findById(subject_id);
-			if (!user) {
-				return res.status(404).json({ msg: "User not found" });
-			}
+
 			if (!subject) {
 				return res.status(404).json({ msg: "Subject not found" });
 			}
-
 			const task = await Task.findOne({
-				userId: user_id,
 				subjectId: subject_id,
 				id,
 			});
 			if (!task) {
-				return res.status(404).json({ msg: "Subject not found" });
+				return res.status(404).json({ msg: "Task not found" });
 			}
+			fs.remove(`./src/subjects/${subject.name}/${task.name}`, (err) => {
+				if (err) return console.error(err);
+				console.log("success!");
+			});
+
 			await task.deleteOne();
 			return res.status(200).json();
 		} catch (err) {

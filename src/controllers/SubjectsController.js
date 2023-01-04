@@ -2,6 +2,8 @@ import Users from "../models/Users";
 import Subjects from "../models/Subjects";
 import Admin from "../models/Admin";
 import createFolder from "../scripts/folders/newSubject";
+import fs from "fs";
+import fs_ from "fs-extra";
 
 class SubjectsController {
 	async index_admin(req, res) {
@@ -103,6 +105,11 @@ class SubjectsController {
 			const index = newSubjects.indexOf(subjects.name);
 			newSubjects.splice(index, 1);
 			await admin.updateOne({ subjects: newSubjects });
+
+			fs_.remove(`./src/subjects/${subjects.name}`, (err) => {
+				if (err) return console.error(err);
+				console.log("success!");
+			});
 
 			await subjects.deleteOne();
 			return res.status(200).json();

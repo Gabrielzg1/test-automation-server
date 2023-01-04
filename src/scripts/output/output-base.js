@@ -2,10 +2,16 @@ const { spawn } = require("child_process");
 const fs = require("fs");
 import { getInputs } from "../input/getInput";
 
+const data =
+	"# Leitura de dados\n" +
+	"n1 = int(input())\n" +
+	"n3 = int(input())\n" +
+	"n4 = int(input()) \nn6 = int(input()) \nprint(n1)\nprint(n3)";
+
 module.exports = async (number, subject, task) => {
 	await fs.writeFile(
 		`./src/subjects/${subject}/${task}/main.py`,
-		"print(10)",
+		data,
 		(err) => {
 			if (err) console.log(err);
 		}

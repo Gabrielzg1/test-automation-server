@@ -4,6 +4,7 @@ import Task from "../models/Task";
 import createTask from "../scripts/folders/newTask";
 import fs from "fs";
 import generateOutputs from "../scripts/output/output-base";
+import { getOutputs } from "../scripts/input/getInput";
 
 class TaskController {
 	async index(req, res) {
@@ -88,11 +89,6 @@ class TaskController {
 			};
 			await generateInputs();
 
-			// Generate the Base outputs
-			for (let i = 0; i < inputs.length; i++) {
-				await generateOutputs(i + 1, subjects.name, name);
-			}
-
 			return res.status(201).json(newTask);
 		} catch (err) {
 			console.error(err);
@@ -101,13 +97,21 @@ class TaskController {
 	}
 	async update(req, res) {
 		try {
-			const { id } = req.params;
-			const { feedback } = req.body;
-
+			const { id, subject_id } = req.params;
 			const task = await Task.findById(id);
+			console.log(task.name);
+			const subject = await Subjects.findById(subject_id);
 			if (!task) return res.status(404).json({ msg: "Task not Found" });
 
-			await task.updateOne({ feedback });
+			// Generate the Base outputs
+			const outputs = new Array();
+			for (let i = 0; i < task.inputs.length; i++) {
+				await generateOutputs(i + 1, subject.name, task.name);
+				outputs.push(
+					await getOutputs(i + 1, subject.name, task.name).toString()
+				);
+			}
+			await task.updateOne({ outputs: outputs });
 			return res.status(200).json();
 		} catch (err) {
 			console.log(err);

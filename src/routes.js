@@ -45,10 +45,7 @@ routes.delete(
 	"/users/:user_id/subjects/:subject_id/tasks/:id",
 	TaskController.destroy
 );
-routes.put(
-	"/users/:user_id/subjects/:subject_id/tasks/:id",
-	TaskController.update
-);
+routes.put("/subjects/:subject_id/tasks/:id", TaskController.update);
 
 //Result Routes
 routes.get("/user/:user_id/task/:task_id/result", ResultController.index);

@@ -42,7 +42,8 @@ class TaskController {
 	async create(req, res) {
 		try {
 			const { subject_id } = req.params;
-			const { name, inputs, baseCode, tips, description } = req.body;
+			const { name, inputs, baseCode, description } = req.body;
+			console.log(req.body.subject_name + name)
 
 			if (!name) res.json({ msg: "nome Obrigatório" });
 
@@ -62,9 +63,10 @@ class TaskController {
 				users: subjects.users,
 				inputs,
 				baseCode,
-				tips,
 				description,
 			});
+
+
 
 			//Atualizar as Tasks dos usuarios
 			const newtTask_ = subjects.tasks;
@@ -94,16 +96,37 @@ class TaskController {
 			return res.status(500).json({ error: "Internal server error" });
 		}
 	}
+
+	async sendFile(req, res) {
+		if (req.file) {
+			//console.log(req.file.buffer.toString());
+			return res.json({
+				erro: false,
+				mensagem: "Upload realizado com sucesso!"
+			});
+		}
+
+		return res.status(400).json({
+			erro: true,
+			mensagem: "Erro: Upload não realizado com sucesso!"
+		});
+
+
+
+	};
+
 	async generateOutputs(req, res) {
 		try {
 			const { id, subject_id } = req.params;
 			const task = await Task.findById(id);
 			const subject = await Subjects.findById(subject_id);
 			if (!task) return res.status(404).json({ msg: "Task not Found" });
+			if (!subject) return res.status(404).json({ msg: "Subject not Found" });
+
 
 			// Generate the Base outputs
 			for (let i = 0; i < task.inputs.length; i++) {
-				await generateOutputs(i + 1, subject.name, task.name);
+				await generateOutputs(i + 1, subject.name, id, task.name);
 			}
 			return res.status(200).json();
 		} catch (err) {
@@ -161,5 +184,8 @@ class TaskController {
 			return res.status(500).json({ error: "Internal server error" });
 		}
 	}
+
+
+
 }
 export default new TaskController();

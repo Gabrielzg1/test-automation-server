@@ -4,6 +4,7 @@ import Admin from "../models/Admin";
 import createFolder from "../scripts/folders/newSubject";
 import fs from "fs";
 import fs_ from "fs-extra";
+import multer from "multer";
 
 class SubjectsController {
 	async index_admin(req, res) {

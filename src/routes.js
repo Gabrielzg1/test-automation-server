@@ -1,4 +1,5 @@
 import { Router } from "express";
+import multer from "multer";
 //Importing the controllers
 import HelloController from "./controllers/HelloController";
 import SubjectsController from "./controllers/SubjectsController";
@@ -9,9 +10,13 @@ import TaskController from "./controllers/TaskController";
 import ResultController from "./controllers/ResultController";
 import UserSessionController from "./controllers/UserSessionController";
 
+import storage from "./config/storage";
 import auth from "./middleware/auth";
 
+
+const upload = multer({ storage: storage })
 const routes = new Router();
+
 //Rotas publicas
 routes.get("/hello", HelloController.index);
 routes.post("/adminSession", AdminSessionController.create);
@@ -40,7 +45,9 @@ routes.delete(
 //Tasks routes
 routes.get("/subjects/:subject_id/tasks", TaskController.index);
 routes.get("/subjects/:subject_id/tasks/:id", TaskController.show);
-routes.post("/subjects/:subject_id/tasks", TaskController.create);
+
+routes.post("/subjects/:subject_id/tasks", upload.single("file"), TaskController.create);
+
 routes.delete("/subjects/:subject_id/tasks/:id", TaskController.destroy);
 routes.put(
 	"/subjects/:subject_id/tasks/:id/generateOutputs",
@@ -55,6 +62,7 @@ routes.delete(
 	"/user/:user_id/task/task:id/result/:id",
 	ResultController.destroy
 );
+routes.post("/files", upload.single("file"), TaskController.sendFile)
 
 //Admins Routes
 routes.get("/admin", AdminController.index);

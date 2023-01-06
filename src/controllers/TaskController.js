@@ -137,6 +137,7 @@ class TaskController {
 	async updateOutputs(req, res) {
 		try {
 			const { id, subject_id } = req.params;
+
 			const task = await Task.findById(id);
 			const subject = await Subjects.findById(subject_id);
 			if (!task) return res.status(404).json({ msg: "Task not Found" });
@@ -144,11 +145,12 @@ class TaskController {
 
 			// Generate the Base outputs
 			const outputs = new Array();
-			for (let i = 0; i < task.inputs.length; i++) {
+			for (let i = 0; i < 10; i++) {
 				outputs.push(
 					await getOutputs(i + 1, subject.name, task.name).toString()
 				);
 			}
+			console.log(outputs)
 			await task.updateOne({ outputs: outputs });
 			return res.status(200).json();
 		} catch (err) {

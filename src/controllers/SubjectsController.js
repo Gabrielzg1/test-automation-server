@@ -2,9 +2,8 @@ import Users from "../models/Users";
 import Subjects from "../models/Subjects";
 import Admin from "../models/Admin";
 import createFolder from "../scripts/folders/newSubject";
-import fs from "fs";
 import fs_ from "fs-extra";
-import multer from "multer";
+
 
 class SubjectsController {
 	async index_admin(req, res) {
@@ -24,6 +23,18 @@ class SubjectsController {
 		} catch (err) {
 			console.error(err);
 			return res.status(500).json({ error: "Internal server error" });
+		}
+	}
+	async show(req, res) {
+		try {
+			const { name } = req.params
+			const subject = await Subjects.findOne({ name })
+			if (!subject) return res.status(404).json({ msg: "Internal server error" })
+			return res.status(200).json(subject)
+
+		} catch (error) {
+			console.log(error)
+			return res.status(500).json({ msg: "internal server error" })
 		}
 	}
 

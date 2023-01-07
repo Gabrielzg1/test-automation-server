@@ -41,6 +41,8 @@ routes.delete(
 
 	SubjectsController.destroy
 );
+routes.get("/users/subjects/:name", SubjectsController.show)
+
 
 //Tasks routes
 routes.get("/subjects/:subject_id/tasks", TaskController.index);

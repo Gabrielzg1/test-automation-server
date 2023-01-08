@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
 import Admin from "../models/Admin";
-
-import { checkPassword } from "../services/auth";
+import bcrypt from "bcryptjs"
 import authConfig from "../config/auth";
 
 class AdminSessionController {
@@ -12,9 +11,10 @@ class AdminSessionController {
     if (!admin) {
       return res.status(401).json({ error: "email / password invalid" });
     }
-    if (!checkPassword(admin, password)) {
+    if (!await bcrypt.compare(password, admin.password)) {
       return res.status(401).json({ error: "password invalid" });
     }
+
     const { id } = admin;
     console.log("Sucessful", email);
     return res.json({

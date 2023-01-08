@@ -16,7 +16,7 @@ class UsersController {
 		try {
 			const { id } = req.params;
 			const user = await User.findById(id);
-			if (!user) return res.status.User(404).json();
+			if (!user) return res.status(404).json();
 			return res.json(user);
 		} catch (err) {
 			console.log(err);

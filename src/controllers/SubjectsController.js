@@ -43,8 +43,8 @@ class SubjectsController {
 			const { admin_id } = req.params;
 			const { name, users } = req.body;
 
-			if (!name) res.json({ msg: "nome Obrigatório" });
-			if (!admin_id) res.json({ msg: "Admin id falho" });
+			if (!name) return res.json({ msg: "nome Obrigatório" });
+			if (!admin_id) return res.json({ msg: "Admin id falho" });
 
 			const admin = await Admin.findById(admin_id);
 

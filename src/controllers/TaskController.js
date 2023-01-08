@@ -150,7 +150,6 @@ class TaskController {
 					await getOutputs(i + 1, subject.name, task.name).toString()
 				);
 			}
-			console.log(outputs)
 			await task.updateOne({ outputs: outputs });
 			return res.status(200).json();
 		} catch (err) {

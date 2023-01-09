@@ -16,7 +16,6 @@ class AdminSessionController {
     }
 
     const { id } = admin;
-    console.log("Sucessful", email);
     return res.json({
       admin: {
         id,

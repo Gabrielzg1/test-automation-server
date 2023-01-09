@@ -120,7 +120,7 @@ class SubjectsController {
 
 			fs_.remove(`./src/subjects/${subjects.name}`, (err) => {
 				if (err) return console.error(err);
-				console.log("success!");
+
 			});
 
 			await subjects.deleteOne();

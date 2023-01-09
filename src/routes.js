@@ -10,11 +10,13 @@ import TaskController from "./controllers/TaskController";
 import ResultController from "./controllers/ResultController";
 import UserSessionController from "./controllers/UserSessionController";
 
-import storage from "./config/storage";
+import { storage, storageUser } from "./config/storage";
 import auth from "./middleware/auth";
+import Task from "./models/Task";
 
 
 const upload = multer({ storage: storage })
+const uploadUser = multer({ storage: storageUser })
 const routes = new Router();
 
 //Rotas publicas
@@ -51,8 +53,8 @@ routes.get("/users/subjects/:name", SubjectsController.show)
 //Tasks routes
 routes.get("/subjects/:subject_id/tasks", TaskController.index);
 routes.get("/subjects/:subject_id/tasks/:id", TaskController.show);
-
 routes.post("/subjects/:subject_id/tasks", upload.single("file"), TaskController.create);
+routes.post("/subjects/:subject_id/tasks/:task_id/:id", TaskController.userCreateFolder)
 
 routes.delete("/subjects/:subject_id/tasks/:id", TaskController.destroy);
 routes.put(
@@ -68,7 +70,10 @@ routes.delete(
 	"/user/:user_id/task/task:id/result/:id",
 	ResultController.destroy
 );
+
+//Files
 routes.post("/files", upload.single("file"), TaskController.sendFile)
+routes.post("/filesUser", uploadUser.single("file"), TaskController.userSendFile)
 
 //Admins Routes
 routes.get("/admin", AdminController.index);

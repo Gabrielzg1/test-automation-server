@@ -28,6 +28,8 @@ routes.post("/userSession", UserSessionController.create);
 //Users routes
 routes.get("/users", UsersController.index);
 routes.get("/users/:id", UsersController.show);
+routes.get("/users/showSubjects/:id", UsersController.showSubjects);
+
 routes.post("/users", UsersController.create);
 routes.put("/users/:id", UsersController.update);
 routes.delete("/users/:id", UsersController.destroy);
@@ -42,6 +44,8 @@ routes.delete(
 	SubjectsController.destroy
 );
 routes.get("/users/subjects/:name", SubjectsController.show)
+
+
 
 
 //Tasks routes

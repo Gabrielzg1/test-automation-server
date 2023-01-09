@@ -43,9 +43,8 @@ class TaskController {
 		try {
 			const { subject_id } = req.params;
 			const { name, inputs, baseCode, description } = req.body;
-			console.log(req.body.subject_name + name)
 
-			if (!name) res.json({ msg: "nome Obrigatório" });
+			if (!name) return res.json({ msg: "nome Obrigatório" });
 
 			const subjects = await Subjects.findById(subject_id);
 
@@ -65,7 +64,6 @@ class TaskController {
 				baseCode,
 				description,
 			});
-
 
 
 			//Atualizar as Tasks dos usuarios

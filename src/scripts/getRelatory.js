@@ -1,6 +1,6 @@
-const comparator = require("./comparator");
+import comparator from "./comparator";
 
-module.exports = (subject, task, id) => {
+export const getRelatory = (subject, task, id) => {
 	var relatory = new Array();
 	for (let i = 1; i < 11; i++) {
 		var result = comparator(i, subject, task, id);

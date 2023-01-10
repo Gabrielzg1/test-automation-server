@@ -3,7 +3,7 @@ const fs = require("fs");
 import { getInputs } from "../input/getInput";
 
 
-module.exports = async (number, subject, task_id, task) => {
+module.exports = async (number, subject, task) => {
 
 	const pythonProcess = spawn("python3", [
 		`./src/subjects/${subject}/${task}/main.py`,

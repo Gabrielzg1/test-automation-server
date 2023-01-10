@@ -54,7 +54,8 @@ routes.get("/users/subjects/:name", SubjectsController.show)
 routes.get("/subjects/:subject_id/tasks", TaskController.index);
 routes.get("/subjects/:subject_id/tasks/:id", TaskController.show);
 routes.post("/subjects/:subject_id/tasks", upload.single("file"), TaskController.create);
-routes.post("/subjects/:subject_id/tasks/:task_id/:id", TaskController.userCreateFolder)
+
+routes.get("/subjects/:subject_id/tasks/:task_id/:id", TaskController.userCreateFolder)
 
 routes.delete("/subjects/:subject_id/tasks/:id", TaskController.destroy);
 routes.put(
@@ -63,10 +64,17 @@ routes.put(
 );
 routes.put("/subjects/:subject_id/tasks/:id", TaskController.updateOutputs);
 
+
 //Result Routes
-routes.get("/user/:user_id/task/:task_id/result", ResultController.index);
-routes.post("/user/:user_id/task/task:id/result", ResultController.create);
+//Show the specific result to an user
+routes.get("/user/:user_id/task/:task_id/result", ResultController.show);
+//Show all the results to the specific task 
+routes.get("/task/:task_id/result", ResultController.index);
+
+routes.post("/user/:user_id/task/:task_id/result", ResultController.create);
+
 routes.delete(
+
 	"/user/:user_id/task/task:id/result/:id",
 	ResultController.destroy
 );

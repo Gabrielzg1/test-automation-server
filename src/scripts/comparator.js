@@ -1,12 +1,11 @@
-const { subtle } = require("crypto");
 const fs = require("fs");
 
 module.exports = (number, subject, task, id) => {
   const fileBase = fs.readFileSync(
-    `./subjects/${subject}/${task}/out/base/output_base${number}.txt`
+    `./src/subjects/${subject}/${task}/out/base/output_base${number}.txt`
   );
   const fileUpload = fs.readFileSync(
-    `./subjects/${subject}/${task}/out/upload/${id}/output_upload${number}.txt`
+    `./src/subjects/${subject}/${task}/out/upload/${id}/output_upload${number}.txt`
   );
 
   if (

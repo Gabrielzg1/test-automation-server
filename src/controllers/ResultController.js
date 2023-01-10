@@ -1,11 +1,12 @@
 import Users from "../models/Users";
 import Subjects from "../models/Subjects";
 import Task from "../models/Task";
-import createTask from "../scripts/folders/newTask";
+import { getRelatory } from "../scripts/getRelatory";
 import Result from "../models/Result";
 
 class ResultController {
-  async index(req, res) {
+  //Show one Result - to display in the user interface
+  async show(req, res) {
     try {
       const { user_id, task_id } = req.params;
       const user = await Users.findById(user_id);
@@ -17,7 +18,8 @@ class ResultController {
         return res.status(404).json({ msg: "Subject not Found" });
       }
 
-      const result = await Result.find({
+
+      const result = await Result.findOne({
         userId: user_id,
         taskId: task_id,
       });
@@ -29,20 +31,42 @@ class ResultController {
     }
   }
 
+  //Show All Results to the specific task
+  async index(req, res) {
+    try {
+      const { task_id } = req.params;
+      const task = await Task.findById(task_id);
+      if (!task) {
+        return res.status(404).json({ msg: "Task not Found" });
+      }
+      const result = await Result.find({
+        taskId: task_id,
+      });
+      return res.json(result);
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  }
+
   async create(req, res) {
     try {
       const { user_id, task_id } = req.params;
-
-      const task = await Subjects.findById(task_id);
-
+      const task = await Task.findById(task_id);
       if (!task) {
-        return res.status(404).json({ msg: "Subject not found" });
+        return res.status(404).json({ msg: "Task not found" });
       }
+      const subject = await Subjects.findById(task.subjectId)
+      if (!subject) return res.status(404).json({ msg: "Subject not Found" });
+
+      const result = await getRelatory(subject.name, task.name, user_id)
 
       const newResult = await Result.create({
         userId: user_id,
         taskId: task_id,
+        result
       });
+
       return res.status(201).json(newResult);
     } catch (err) {
       console.error(err);

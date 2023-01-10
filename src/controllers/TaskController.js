@@ -4,8 +4,9 @@ import Task from "../models/Task";
 import createTask from "../scripts/folders/newTask";
 import createUserFolder from "../scripts/folders/newUserFolder"
 import fs from "fs-extra";
-import generateOutputs from "../scripts/output/output-base";
-import { getOutputs } from "../scripts/input/getInput";
+import generateOutput from "../scripts/output/output-base";
+import generateUploadOutputs from "../scripts/output/output-upload";
+import { getOutputs, } from "../scripts/input/getInput";
 
 class TaskController {
 	async index(req, res) {
@@ -25,7 +26,6 @@ class TaskController {
 			return res.status(500).json({ error: "Internal server error" });
 		}
 	}
-
 	async show(req, res) {
 		try {
 			const { subject_id, id } = req.params;
@@ -39,7 +39,6 @@ class TaskController {
 			return res.status(500).json({ error: "Internal server error." });
 		}
 	}
-
 	async create(req, res) {
 		try {
 			const { subject_id } = req.params;
@@ -95,7 +94,6 @@ class TaskController {
 			return res.status(500).json({ error: "Internal server error" });
 		}
 	}
-
 	async sendFile(req, res) {
 		if (req.file) {
 			return res.json({
@@ -112,7 +110,6 @@ class TaskController {
 
 
 	};
-
 	async generateOutputs(req, res) {
 		try {
 			const { id, subject_id } = req.params;
@@ -124,7 +121,7 @@ class TaskController {
 
 			// Generate the Base outputs
 			for (let i = 0; i < task.inputs.length; i++) {
-				await generateOutputs(i + 1, subject.name, id, task.name);
+				await generateOutput(i + 1, subject.name, task.name);
 			}
 			return res.status(200).json();
 		} catch (err) {
@@ -166,6 +163,11 @@ class TaskController {
 			const user = await Users.findById(id)
 			if (!user) return res.status(402)
 			await createUserFolder(subject.name, task.name, id)
+
+			for (let i = 0; i < 10; i++) {
+				await generateUploadOutputs(i + 1, subject.name, task.name, id);
+			}
+
 			return res.status(200).json({ msg: "sucess" })
 		} catch (error) {
 			console.log(error)
@@ -177,8 +179,9 @@ class TaskController {
 	async userSendFile(req, res) {
 		if (req.file)
 			return res.status(200)
+		else
+			return res.status(404)
 	}
-
 	async destroy(req, res) {
 		try {
 			const { subject_id, id } = req.params;

@@ -5,7 +5,6 @@ export const getRelatory = (subject, task, id) => {
 	for (let i = 1; i < 11; i++) {
 		var result = comparator(i, subject, task, id);
 		relatory.push(result);
-		console.log(`Teste ${i}: ${result}`);
 	}
 	return relatory;
 };

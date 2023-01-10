@@ -6,6 +6,10 @@ const resultSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    userName: {
+      type: String,
+      required: true,
+    },
     taskId: {
       type: String,
       require: true,
@@ -19,3 +23,6 @@ const resultSchema = new mongoose.Schema(
   }
 );
 export default mongoose.model("Result", resultSchema);
+
+
+

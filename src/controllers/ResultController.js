@@ -59,12 +59,16 @@ class ResultController {
       const subject = await Subjects.findById(task.subjectId)
       if (!subject) return res.status(404).json({ msg: "Subject not Found" });
 
+      const user = await Users.findById(user_id)
+      if (!user) return res.status(404).json({ msg: "User not Found" });
+
       const result = await getRelatory(subject.name, task.name, user_id)
 
       const newResult = await Result.create({
         userId: user_id,
         taskId: task_id,
-        result
+        result,
+        userName: user.username
       });
 
       return res.status(201).json(newResult);

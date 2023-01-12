@@ -1,12 +1,12 @@
-import Users from "../models/Users"
+import Users from "../models/Users";
 import Subjects from "../models/Subjects";
 import Task from "../models/Task";
 import createTask from "../scripts/folders/newTask";
-import createUserFolder from "../scripts/folders/newUserFolder"
+import createUserFolder from "../scripts/folders/newUserFolder";
 import fs from "fs-extra";
 import generateOutput from "../scripts/output/output-base";
 import generateUploadOutputs from "../scripts/output/output-upload";
-import { getOutputs, } from "../scripts/input/getInput";
+import { getOutputs } from "../scripts/input/getInput";
 
 class TaskController {
 	async index(req, res) {
@@ -65,7 +65,6 @@ class TaskController {
 				description,
 			});
 
-
 			//Atualizar as Tasks dos usuarios
 			const newtTask_ = subjects.tasks;
 			newtTask_.push(name);
@@ -79,7 +78,7 @@ class TaskController {
 				for (let i = 0; i < inputs.length; i++) {
 					fs.writeFile(
 						`./src/subjects/${subjects.name}/${name}/input/input${i + 1}.txt`,
-						inputs[i].split(" ").join("\n"),
+						inputs[i].split(", ").join("\n"),
 						(err) => {
 							if (err) console.log(err);
 						}
@@ -98,18 +97,15 @@ class TaskController {
 		if (req.file) {
 			return res.json({
 				erro: false,
-				mensagem: "Upload realizado com sucesso!"
+				mensagem: "Upload realizado com sucesso!",
 			});
 		}
 
 		return res.status(400).json({
 			erro: true,
-			mensagem: "Erro: Upload não realizado com sucesso!"
+			mensagem: "Erro: Upload não realizado com sucesso!",
 		});
-
-
-
-	};
+	}
 	async generateOutputs(req, res) {
 		try {
 			const { id, subject_id } = req.params;
@@ -117,7 +113,6 @@ class TaskController {
 			const subject = await Subjects.findById(subject_id);
 			if (!task) return res.status(404).json({ msg: "Task not Found" });
 			if (!subject) return res.status(404).json({ msg: "Subject not Found" });
-
 
 			// Generate the Base outputs
 			for (let i = 0; i < task.inputs.length; i++) {
@@ -154,33 +149,29 @@ class TaskController {
 	}
 	async userCreateFolder(req, res) {
 		try {
-			const { subject_id, task_id, id } = req.params
+			const { subject_id, task_id, id } = req.params;
 
-			const subject = await Subjects.findById(subject_id)
-			if (!subject) return res.status(402)
-			const task = await Task.findById(task_id)
-			if (!task) return res.status(402)
-			const user = await Users.findById(id)
-			if (!user) return res.status(402)
-			await createUserFolder(subject.name, task.name, id)
+			const subject = await Subjects.findById(subject_id);
+			if (!subject) return res.status(402);
+			const task = await Task.findById(task_id);
+			if (!task) return res.status(402);
+			const user = await Users.findById(id);
+			if (!user) return res.status(402);
+			await createUserFolder(subject.name, task.name, id);
 
 			for (let i = 0; i < 10; i++) {
 				await generateUploadOutputs(i + 1, subject.name, task.name, id);
 			}
 
-			return res.status(200).json({ msg: "sucess" })
+			return res.status(200).json({ msg: "sucess" });
 		} catch (error) {
-			console.log(error)
-			return res.status(500)
+			console.log(error);
+			return res.status(500);
 		}
-
-
 	}
 	async userSendFile(req, res) {
-		if (req.file)
-			return res.status(200)
-		else
-			return res.status(404)
+		if (req.file) return res.status(200);
+		else return res.status(404);
 	}
 	async destroy(req, res) {
 		try {
@@ -199,7 +190,6 @@ class TaskController {
 			}
 			fs.remove(`./src/subjects/${subject.name}/${task.name}`, (err) => {
 				if (err) return console.error(err);
-
 			});
 
 			await task.deleteOne();
@@ -209,8 +199,5 @@ class TaskController {
 			return res.status(500).json({ error: "Internal server error" });
 		}
 	}
-
-
-
 }
 export default new TaskController();

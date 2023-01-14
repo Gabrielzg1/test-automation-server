@@ -4,7 +4,6 @@ import Admin from "../models/Admin";
 import createFolder from "../scripts/folders/newSubject";
 import fs_ from "fs-extra";
 
-
 class SubjectsController {
 	async index_admin(req, res) {
 		try {
@@ -27,14 +26,14 @@ class SubjectsController {
 	}
 	async show(req, res) {
 		try {
-			const { name } = req.params
-			const subject = await Subjects.findOne({ name })
-			if (!subject) return res.status(404).json({ msg: "Internal server error" })
-			return res.status(200).json(subject)
-
+			const { name } = req.params;
+			const subject = await Subjects.findOne({ name });
+			if (!subject)
+				return res.status(404).json({ msg: "Internal server error" });
+			return res.status(200).json(subject);
 		} catch (error) {
-			console.log(error)
-			return res.status(500).json({ msg: "internal server error" })
+			console.log(error);
+			return res.status(500).json({ msg: "internal server error" });
 		}
 	}
 
@@ -119,8 +118,8 @@ class SubjectsController {
 			await admin.updateOne({ subjects: newSubjects });
 
 			fs_.remove(`./src/subjects/${subjects.name}`, (err) => {
+				console.log("entrou");
 				if (err) return console.error(err);
-
 			});
 
 			await subjects.deleteOne();

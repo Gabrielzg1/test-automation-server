@@ -12,11 +12,9 @@ import UserSessionController from "./controllers/UserSessionController";
 
 import { storage, storageUser } from "./config/storage";
 import auth from "./middleware/auth";
-import Task from "./models/Task";
 
-
-const upload = multer({ storage: storage })
-const uploadUser = multer({ storage: storageUser })
+const upload = multer({ storage: storage });
+const uploadUser = multer({ storage: storageUser });
 const routes = new Router();
 
 //Rotas publicas
@@ -45,17 +43,21 @@ routes.delete(
 
 	SubjectsController.destroy
 );
-routes.get("/users/subjects/:name", SubjectsController.show)
-
-
-
+routes.get("/users/subjects/:name", SubjectsController.show);
 
 //Tasks routes
 routes.get("/subjects/:subject_id/tasks", TaskController.index);
 routes.get("/subjects/:subject_id/tasks/:id", TaskController.show);
-routes.post("/subjects/:subject_id/tasks", upload.single("file"), TaskController.create);
+routes.post(
+	"/subjects/:subject_id/tasks",
+	upload.single("file"),
+	TaskController.create
+);
 
-routes.get("/subjects/:subject_id/tasks/:task_id/:id", TaskController.userCreateFolder)
+routes.get(
+	"/subjects/:subject_id/tasks/:task_id/:id",
+	TaskController.userCreateFolder
+);
 
 routes.delete("/subjects/:subject_id/tasks/:id", TaskController.destroy);
 routes.put(
@@ -64,24 +66,26 @@ routes.put(
 );
 routes.put("/subjects/:subject_id/tasks/:id", TaskController.updateOutputs);
 
-
 //Result Routes
 //Show the specific result to an user
 routes.get("/user/:user_id/task/:task_id/result", ResultController.show);
-//Show all the results to the specific task 
+//Show all the results to the specific task
 routes.get("/task/:task_id/result", ResultController.index);
 
 routes.post("/user/:user_id/task/:task_id/result", ResultController.create);
 
 routes.delete(
-
 	"/user/:user_id/task/task:id/result/:id",
 	ResultController.destroy
 );
 
 //Files
-routes.post("/files", upload.single("file"), TaskController.sendFile)
-routes.post("/filesUser", uploadUser.single("file"), TaskController.userSendFile)
+routes.post("/files", upload.single("file"), TaskController.sendFile);
+routes.post(
+	"/filesUser",
+	uploadUser.single("file"),
+	TaskController.userSendFile
+);
 
 //Admins Routes
 routes.get("/admin", AdminController.index);

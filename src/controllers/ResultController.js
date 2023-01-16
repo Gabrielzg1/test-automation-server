@@ -3,6 +3,7 @@ import Subjects from "../models/Subjects";
 import Task from "../models/Task";
 import { getRelatory } from "../scripts/getRelatory";
 import Result from "../models/Result";
+import clear from "../scripts/clear/clear";
 
 class ResultController {
 	//Show one Result - to display in the user interface
@@ -81,10 +82,14 @@ class ResultController {
 			const { user_id, task_id, id } = req.params;
 			const user = await Users.findById(user_id);
 			if (!user) {
-				return res.status(404).json({ msg: "Subject not Found" });
+				return res.status(404).json({ msg: "User not Found" });
 			}
 			const task = await Task.findById(task_id);
 			if (!task) {
+				return res.status(404).json({ msg: "Task not Found" });
+			}
+			const subject = await Subjects.findById(task.subjectId);
+			if (!subject) {
 				return res.status(404).json({ msg: "Subject not Found" });
 			}
 
@@ -93,7 +98,9 @@ class ResultController {
 				taskId: task_id,
 				id,
 			});
-
+			for (let i = 0; i < 10; i++) {
+				clear(i + 1, subject.name, task.name, user_id);
+			}
 			await result.deleteOne();
 			return res.status(200).json();
 		} catch (err) {

@@ -5,102 +5,101 @@ import { getRelatory } from "../scripts/getRelatory";
 import Result from "../models/Result";
 
 class ResultController {
-  //Show one Result - to display in the user interface
-  async show(req, res) {
-    try {
-      const { user_id, task_id } = req.params;
-      const user = await Users.findById(user_id);
-      if (!user) {
-        return res.status(404).json({ msg: "Subject not Found" });
-      }
-      const task = await Task.findById(task_id);
-      if (!task) {
-        return res.status(404).json({ msg: "Subject not Found" });
-      }
+	//Show one Result - to display in the user interface
+	async show(req, res) {
+		try {
+			const { user_id, task_id } = req.params;
+			const user = await Users.findById(user_id);
+			if (!user) {
+				return res.status(404).json({ msg: "Subject not Found" });
+			}
+			const task = await Task.findById(task_id);
+			if (!task) {
+				return res.status(404).json({ msg: "Subject not Found" });
+			}
 
+			const result = await Result.findOne({
+				userId: user_id,
+				taskId: task_id,
+			});
 
-      const result = await Result.findOne({
-        userId: user_id,
-        taskId: task_id,
-      });
+			return res.json(result);
+		} catch (err) {
+			console.error(err);
+			return res.status(500).json({ error: "Internal server error" });
+		}
+	}
 
-      return res.json(result);
-    } catch (err) {
-      console.error(err);
-      return res.status(500).json({ error: "Internal server error" });
-    }
-  }
+	//Show All Results to the specific task
+	async index(req, res) {
+		try {
+			const { task_id } = req.params;
+			const task = await Task.findById(task_id);
+			if (!task) {
+				return res.status(404).json({ msg: "Task not Found" });
+			}
+			const result = await Result.find({
+				taskId: task_id,
+			});
+			return res.json(result);
+		} catch (err) {
+			console.error(err);
+			return res.status(500).json({ error: "Internal server error" });
+		}
+	}
 
-  //Show All Results to the specific task
-  async index(req, res) {
-    try {
-      const { task_id } = req.params;
-      const task = await Task.findById(task_id);
-      if (!task) {
-        return res.status(404).json({ msg: "Task not Found" });
-      }
-      const result = await Result.find({
-        taskId: task_id,
-      });
-      return res.json(result);
-    } catch (err) {
-      console.error(err);
-      return res.status(500).json({ error: "Internal server error" });
-    }
-  }
+	async create(req, res) {
+		try {
+			const { user_id, task_id } = req.params;
+			const task = await Task.findById(task_id);
+			if (!task) {
+				return res.status(404).json({ msg: "Task not found" });
+			}
+			const subject = await Subjects.findById(task.subjectId);
+			if (!subject) return res.status(404).json({ msg: "Subject not Found" });
 
-  async create(req, res) {
-    try {
-      const { user_id, task_id } = req.params;
-      const task = await Task.findById(task_id);
-      if (!task) {
-        return res.status(404).json({ msg: "Task not found" });
-      }
-      const subject = await Subjects.findById(task.subjectId)
-      if (!subject) return res.status(404).json({ msg: "Subject not Found" });
+			const user = await Users.findById(user_id);
+			if (!user) return res.status(404).json({ msg: "User not Found" });
 
-      const user = await Users.findById(user_id)
-      if (!user) return res.status(404).json({ msg: "User not Found" });
+			const result = await getRelatory(subject.name, task.name, user_id);
 
-      const result = await getRelatory(subject.name, task.name, user_id)
+			const newResult = await Result.create({
+				userId: user_id,
+				taskId: task_id,
+				result,
+				userName: user.username,
+			});
 
-      const newResult = await Result.create({
-        userId: user_id,
-        taskId: task_id,
-        result,
-        userName: user.username
-      });
+			return res.status(201).json(newResult);
+		} catch (err) {
+			console.error(err);
+			return res.status(500).json({ error: "Internal server error" });
+		}
+	}
+	async destroy(req, res) {
+		try {
+			const { user_id, task_id, id } = req.params;
+			const user = await Users.findById(user_id);
+			if (!user) {
+				return res.status(404).json({ msg: "Subject not Found" });
+			}
+			const task = await Task.findById(task_id);
+			if (!task) {
+				return res.status(404).json({ msg: "Subject not Found" });
+			}
 
-      return res.status(201).json(newResult);
-    } catch (err) {
-      console.error(err);
-      return res.status(500).json({ error: "Internal server error" });
-    }
-  }
-  async destroy(req, res) {
-    try {
-      const { user_id, task_id, id } = req.params;
-      const user = await Users.findById(user_id);
-      if (!user) {
-        return res.status(404).json({ msg: "Subject not Found" });
-      }
-      const task = await Task.findById(task_id);
-      if (!task) {
-        return res.status(404).json({ msg: "Subject not Found" });
-      }
+			const result = await Result.findOne({
+				userId: user_id,
+				taskId: task_id,
+				id,
+			});
 
-      const result = await Result.findOne({
-        userId: user_id,
-        taskId: task_id,
-        id,
-      });
-
-      await result.deleteOne();
-      return res.status(200).json();
-    } catch (err) {
-      console.error(err);
-      return res.status(500).json({ error: "Internal server error" });
-    }
-  }
+			await result.deleteOne();
+			return res.status(200).json();
+		} catch (err) {
+			console.error(err);
+			return res.status(500).json({ error: "Internal server error" });
+		}
+	}
 }
 export default new ResultController();

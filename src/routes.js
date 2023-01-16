@@ -75,7 +75,7 @@ routes.get("/task/:task_id/result", ResultController.index);
 routes.post("/user/:user_id/task/:task_id/result", ResultController.create);
 
 routes.delete(
-	"/user/:user_id/task/task:id/result/:id",
+	"/user/:user_id/task/:task_id/result/:id",
 	ResultController.destroy
 );
 

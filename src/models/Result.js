@@ -5,9 +5,6 @@ const resultSchema = new mongoose.Schema(
 		userId: {
 			type: String,
 			required: true,
-			index: {
-				unique: true,
-			},
 		},
 		userName: {
 			type: String,

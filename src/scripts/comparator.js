@@ -12,11 +12,6 @@ module.exports = (number, subject, task, id) => {
 		fileBase.toJSON().data.length != 0 &&
 		fileUpload.toJSON().data.length != 0
 	) {
-		console.log(fileUpload.toJSON().data.length);
-		if (fileUpload.toJSON().data.length == 0) {
-			return 2;
-		}
-
 		if (Buffer.compare(fileBase, fileUpload) === 0) {
 			return 1;
 		} else {
@@ -25,6 +20,9 @@ module.exports = (number, subject, task, id) => {
 	} else {
 		if (fileBase.toJSON().data.length == 0)
 			console.log("Erro nas saídas esperadas");
-		else console.log("O arquivo enviado não contém saídas");
+		else {
+			console.log("O arquivo enviado não contém saídas");
+			return 2;
+		}
 	}
 };

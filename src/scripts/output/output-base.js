@@ -4,7 +4,7 @@ import { getInputs } from "../input/getInput";
 
 module.exports = async (number, subject, task) => {
 	const pythonProcess = spawn("python3", [
-		`./src/subjects/${subject}/${task}/main.py`,
+		`src/subjects/${subject}/${task}/main.py`,
 	]);
 	pythonProcess.stdin.write(getInputs(number, subject, task).toString());
 

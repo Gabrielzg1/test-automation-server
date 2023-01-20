@@ -18,9 +18,10 @@ module.exports = (number, subject, task, id) => {
 			return 0;
 		}
 	} else {
-		if (fileBase.toJSON().data.length == 0)
+		if (fileBase.toJSON().data.length == 0) {
 			console.log("Erro nas saídas esperadas");
-		else {
+			return 2;
+		} else {
 			console.log("O arquivo enviado não contém saídas");
 			return 2;
 		}

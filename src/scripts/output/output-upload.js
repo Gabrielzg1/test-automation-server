@@ -3,11 +3,10 @@ const fs = require("fs");
 import { getInputs } from "../input/getInput";
 
 module.exports = (number, subject, task, id) => {
-	const inputs = getInputs(number, subject, task).toString();
 	const pythonProcess = spawn("python3", [
 		`src/subjects/${subject}/${task}/upload/${id}/main.py`,
 	]);
-	pythonProcess.stdin.write(inputs);
+	pythonProcess.stdin.write(getInputs(number, subject, task).toString());
 
 	pythonProcess.stdin.end();
 
@@ -27,5 +26,4 @@ module.exports = (number, subject, task, id) => {
 	});
 
 	pythonProcess.on("close", (code) => {});
-	return "done";
 };

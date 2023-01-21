@@ -1,7 +1,6 @@
 import { Router } from "express";
 import multer from "multer";
 //Importing the controllers
-import HelloController from "./controllers/HelloController";
 import SubjectsController from "./controllers/SubjectsController";
 import UsersController from "./controllers/UsersController";
 import AdminSessionController from "./controllers/AdminSessionController";
@@ -18,7 +17,7 @@ const uploadUser = multer({ storage: storageUser });
 const routes = new Router();
 
 //Rotas publicas
-routes.get("/hello", HelloController.index);
+
 routes.post("/adminSession", AdminSessionController.create);
 routes.post("/userSession", UserSessionController.create);
 

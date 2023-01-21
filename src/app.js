@@ -11,10 +11,15 @@ class App {
     console.log("Running on http://localhost:2020");
   }
   middlewares() {
+    this.server.use(function (req, res, next) {
+      res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+      next();
+    });
     this.server.use(express.json());
     this.server.use(cors());
   }
   routes() {
+
     this.server.use(routes);
   }
 }

@@ -18,7 +18,6 @@ class SessionController {
     }
 
     const { id } = user;
-    console.log("Sucessful", email);
     return res.json({
       user: {
         id,

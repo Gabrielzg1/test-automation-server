@@ -21,7 +21,7 @@ const routes = new Router();
 routes.post("/adminSession", AdminSessionController.create);
 routes.post("/userSession", UserSessionController.create);
 
-//routes.use(auth);
+routes.use(auth);
 
 //Rotas privadas
 //Users routes

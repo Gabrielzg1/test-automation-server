@@ -3,7 +3,7 @@
 const express = require("express");
 const cors = require("cors")
 const routes = require("./routes")
-const database = require("./database/index").default
+require("./database/index")
 
 class App {
 	constructor() {
@@ -25,4 +25,4 @@ class App {
 	}
 }
 
-export default new App().server;
+module.exports = new App().server;

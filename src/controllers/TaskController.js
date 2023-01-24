@@ -9,12 +9,14 @@ import generateOutput from "../scripts/output/output-base";
 import generateUploadOutputs from "../scripts/output/output-upload";
 import { getOutputs } from "../scripts/input/getInput"; */
 
+
 const Users = require("../models/Users");
 const Task = require("../models/Task");
 const Subjects = require("../models/Subjects");
 const createTask = require("../scripts/folders/newTask");
 const createUserFolder = require("../scripts/folders/newUserFolder");
 const fs = require("fs-extra");
+
 
 const generateOutput = require("../scripts/output/output-base");
 const generateUploadOutputs = require("../scripts/output/output-upload");
@@ -170,6 +172,10 @@ class TaskController {
 			const user = await Users.findById(id);
 			if (!user) return res.status(402);
 			await createUserFolder(subject.name, task.name, id);
+
+			for (let i = 0; i < 10; i++) {
+				await preexec(i + 1, subject.name, task.name, id);
+			}
 
 			for (let i = 0; i < 10; i++) {
 				await generateUploadOutputs(i + 1, subject.name, task.name, id);

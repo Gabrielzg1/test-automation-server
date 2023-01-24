@@ -6,7 +6,7 @@ import authConfig from "../config/auth"; */
 const jwt = require("jsonwebtoken")
 const Users = require("../models/Users")
 const bcrypt = require("bcryptjs")
-const authConfig = require("../config/auth").default
+const authConfig = require("../config/auth")
 
 class SessionController {
   async create(req, res) {

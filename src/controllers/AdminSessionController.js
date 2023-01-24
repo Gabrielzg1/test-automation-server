@@ -5,7 +5,7 @@
 const jwt = require("jsonwebtoken")
 const Admin = require("../models/Admin")
 const bcrypt = require("bcryptjs")
-const authConfig = require("../config/auth").default
+const authConfig = require("../config/auth")
 
 
 

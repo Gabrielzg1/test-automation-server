@@ -1,7 +1,7 @@
 const { spawn } = require("child_process");
 const fs = require("fs");
 //import { getInputs } from "../input/getInput";
-const { getInputs } = require("../input/getInput")
+const { getInputs } = require("../input/getInput");
 
 module.exports = (number, subject, task, id) => {
 	const pythonProcess = spawn("python3", [
@@ -24,7 +24,10 @@ module.exports = (number, subject, task, id) => {
 
 	pythonProcess.stderr.on("data", (data) => {
 		console.error(`Upload stderr: ${data}`);
+		/* 		spawn("python3", [
+			`src/subjects/${subject}/${task}/upload/${id}/main.py`,
+		]); */
 	});
 
-	pythonProcess.on("close", (code) => { });
+	pythonProcess.on("close", (code) => {});
 };

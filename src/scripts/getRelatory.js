@@ -1,7 +1,7 @@
 //import comparator from "./comparator";
 const comparator = require("./comparator")
 
-export const getRelatory = async (subject, task, id) => {
+const getRelatory = async (subject, task, id) => {
 	var relatory = new Array();
 	for (let i = 1; i < 11; i++) {
 		var result = comparator(i, subject, task, id);
@@ -9,3 +9,4 @@ export const getRelatory = async (subject, task, id) => {
 	}
 	return relatory;
 };
+module.exports = getRelatory

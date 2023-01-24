@@ -18,6 +18,7 @@ const fs = require("fs-extra")
 
 const generateOutput = require("../scripts/output/output-base")
 const generateUploadOutputs = require("../scripts/output/output-upload")
+const preexec = require("../scripts/output/preexec")
 const getOutputs = require("../scripts/input/getInput").getOutputs
 
 
@@ -173,6 +174,10 @@ class TaskController {
 			const user = await Users.findById(id);
 			if (!user) return res.status(402);
 			await createUserFolder(subject.name, task.name, id);
+
+			for (let i = 0; i < 10; i++) {
+				await preexec(i + 1, subject.name, task.name, id);
+			}
 
 			for (let i = 0; i < 10; i++) {
 				await generateUploadOutputs(i + 1, subject.name, task.name, id);

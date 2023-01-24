@@ -3,6 +3,7 @@ const multer = require("multer")
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
+        console.log("done");
         cb(null, `./src/subjects/${req.body.subject_name}/${req.body.name}`)
     },
     filename: function (req, file, cb) {
@@ -11,6 +12,8 @@ const storage = multer.diskStorage({
 })
 const storageUser = multer.diskStorage({
     destination: function (req, file, cb) {
+        console.log("done");
+
         cb(null, `./src/subjects/${req.body.subject_name}/${req.body.task_name}/upload/${req.body.id}`)
     },
     filename: function (req, file, cb) {

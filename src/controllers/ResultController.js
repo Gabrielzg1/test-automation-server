@@ -7,7 +7,7 @@ import clear from "../scripts/clear/clear"; */
 
 const Users = require("../models/Users")
 const Task = require("../models/Task")
-const getRelatory = require("../scripts/getRelatory").getRelatory
+const getRelaroty = require("../scripts/getRelatory")
 const Result = require("../models/Result")
 const clear = require("../scripts/clear/clear")
 const Subjects = require("../models/Subjects")
@@ -69,7 +69,7 @@ class ResultController {
 			const user = await Users.findById(user_id);
 			if (!user) return res.status(404).json({ msg: "User not Found" });
 
-			const result = await getRelatory(subject.name, task.name, user_id);
+			const result = await getRelaroty(subject.name, task.name, user_id);
 
 			const newResult = await Result.create({
 				userId: user_id,

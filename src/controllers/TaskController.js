@@ -14,7 +14,8 @@ const Task = require("../models/Task")
 const Subjects = require("../models/Subjects")
 const createTask = require("../scripts/folders/newTask")
 const createUserFolder = require("../scripts/folders/newUserFolder")
-const fs = require("fs")
+const fs = require("fs-extra")
+
 const generateOutput = require("../scripts/output/output-base")
 const generateUploadOutputs = require("../scripts/output/output-upload")
 const getOutputs = require("../scripts/input/getInput").getOutputs
@@ -195,10 +196,10 @@ class TaskController {
 			if (!subject) {
 				return res.status(404).json({ msg: "Subject not found" });
 			}
-			const task = await Task.findOne({
-				subjectId: subject_id,
+			const task = await Task.findById(
+
 				id,
-			});
+			);
 			if (!task) {
 				return res.status(404).json({ msg: "Task not found" });
 			}

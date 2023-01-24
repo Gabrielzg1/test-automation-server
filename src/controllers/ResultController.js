@@ -1,9 +1,16 @@
-import Users from "../models/Users";
+/* import Users from "../models/Users";
 import Subjects from "../models/Subjects";
 import Task from "../models/Task";
 import { getRelatory } from "../scripts/getRelatory";
 import Result from "../models/Result";
-import clear from "../scripts/clear/clear";
+import clear from "../scripts/clear/clear"; */
+
+const Users = require("../models/Users")
+const Task = require("../models/Task")
+const getRelatory = require("../scripts/getRelatory").getRelatory
+const Result = require("../models/Result")
+const clear = require("../scripts/clear/clear")
+const Subjects = require("../models/Subjects")
 
 class ResultController {
 	//Show one Result - to display in the user interface
@@ -109,4 +116,4 @@ class ResultController {
 		}
 	}
 }
-export default new ResultController();
+module.exports = new ResultController();

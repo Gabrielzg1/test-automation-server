@@ -1,5 +1,7 @@
-import Admin from "../models/Admin";
-import bcrypt from "bcryptjs";
+//import Admin from "../models/Admin";
+//import bcrypt from "bcryptjs";
+const Admin = require("../models/Admin")
+const bcrypt = require("bcryptjs")
 
 class AdminController {
 	async index(req, res) {
@@ -85,4 +87,4 @@ class AdminController {
 		}
 	}
 }
-export default new AdminController();
+module.exports = new AdminController();

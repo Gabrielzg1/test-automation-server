@@ -1,8 +1,14 @@
-import Users from "../models/Users";
+/* import Users from "../models/Users";
 import Subjects from "../models/Subjects";
 import Admin from "../models/Admin";
 import createFolder from "../scripts/folders/newSubject";
-import fs_ from "fs-extra";
+import fs_ from "fs-extra"; */
+const Users = require("../models/Users")
+const Admin = require("../models/Admin")
+const createFolder = require("../scripts/folders/newSubject")
+const fs_ = require("fs-extra")
+const Subjects = require("../models/Subjects")
+
 
 class SubjectsController {
 	async index_admin(req, res) {
@@ -130,4 +136,4 @@ class SubjectsController {
 		}
 	}
 }
-export default new SubjectsController();
+module.exports = new SubjectsController();

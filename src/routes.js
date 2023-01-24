@@ -35,7 +35,7 @@ const uploadUser = multer({ storage: storageUser });
 routes.post("/adminSession", AdminSessionController.create);
 routes.post("/userSession", UserSessionController.create);
 
-//routes.use(auth, (req, res) => { });
+routes.use(auth, (req, res) => { });
 
 //Rotas privadas
 //Users routes

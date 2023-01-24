@@ -1,4 +1,5 @@
-import comparator from "./comparator";
+//import comparator from "./comparator";
+const comparator = require("./comparator")
 
 export const getRelatory = async (subject, task, id) => {
 	var relatory = new Array();

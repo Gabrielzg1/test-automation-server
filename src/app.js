@@ -1,7 +1,9 @@
+//import cors from "cors";
+//import routes from "./routes";
 const express = require("express");
-import cors from "cors";
-import routes from "./routes";
-import "./database";
+const cors = require("cors")
+const routes = require("./routes")
+const database = require("./database/index").default
 
 class App {
 	constructor() {

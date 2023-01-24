@@ -1,6 +1,7 @@
 const { spawn } = require("child_process");
 const fs = require("fs");
-import { getInputs } from "../input/getInput";
+const { getInputs } = require("../input/getInput")
+//import { getInputs } from "../input/getInput";
 
 module.exports = async (number, subject, task) => {
 	const pythonProcess = spawn("python3", [
@@ -25,6 +26,6 @@ module.exports = async (number, subject, task) => {
 		console.error(`stderr: ${data}`);
 	});
 
-	pythonProcess.on("close", () => {});
+	pythonProcess.on("close", () => { });
 	return "done";
 };

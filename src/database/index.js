@@ -1,5 +1,8 @@
-import mongoose from "mongoose";
-import config from "../config/database";
+/* import mongoose from "mongoose";
+import config from "../config/database"; */
+const mongoose = require("mongoose")
+const config = require("../config/database").default
+
 
 class Database {
   constructor() {

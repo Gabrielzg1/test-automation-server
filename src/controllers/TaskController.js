@@ -1,3 +1,4 @@
+/* 
 import Users from "../models/Users";
 import Subjects from "../models/Subjects";
 import Task from "../models/Task";
@@ -6,7 +7,20 @@ import createUserFolder from "../scripts/folders/newUserFolder";
 import fs from "fs-extra";
 import generateOutput from "../scripts/output/output-base";
 import generateUploadOutputs from "../scripts/output/output-upload";
-import { getOutputs } from "../scripts/input/getInput";
+import { getOutputs } from "../scripts/input/getInput"; */
+
+const Users = require("../models/Users")
+const Task = require("../models/Task")
+const Subjects = require("../models/Subjects")
+const createTask = require("../scripts/folders/newTask")
+const createUserFolder = require("../scripts/folders/newUserFolder")
+const fs = require("fs")
+const generateOutput = require("../scripts/output/output-base")
+const generateUploadOutputs = require("../scripts/output/output-upload")
+const getOutputs = require("../scripts/input/getInput").getOutputs
+
+
+
 
 class TaskController {
 	async index(req, res) {
@@ -200,4 +214,4 @@ class TaskController {
 		}
 	}
 }
-export default new TaskController();
+module.exports = new TaskController();

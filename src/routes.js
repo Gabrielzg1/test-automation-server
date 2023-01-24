@@ -1,4 +1,4 @@
-import { Router } from "express";
+/* import { Router } from "express";
 import multer from "multer";
 //Importing the controllers
 import SubjectsController from "./controllers/SubjectsController";
@@ -11,17 +11,31 @@ import UserSessionController from "./controllers/UserSessionController";
 
 import { storage, storageUser } from "./config/storage";
 import auth from "./middleware/auth";
+*/
+const routes = require("express").Router()
+const multer = require("multer")
+const SubjectsController = require("./controllers/SubjectsController")
+const UsersController = require('./controllers/UsersController')
+const AdminController = require("./controllers/AdminController")
+const TaskController = require("./controllers/TaskController")
+const ResultController = require("./controllers/ResultController")
+const UserSessionController = require("./controllers/UserSessionController")
+const AdminSessionController = require("./controllers/AdminSessionController")
+const { storage, storageUser } = require("./config/storage")
+const auth = require("./middleware/auth")
+
+
 
 const upload = multer({ storage: storage });
 const uploadUser = multer({ storage: storageUser });
-const routes = new Router();
+//const routes = new Router();
 
 //Rotas publicas
 
 routes.post("/adminSession", AdminSessionController.create);
 routes.post("/userSession", UserSessionController.create);
 
-routes.use(auth);
+routes.use(auth, (req, res) => { });
 
 //Rotas privadas
 //Users routes
@@ -93,4 +107,4 @@ routes.post("/admin", AdminController.create);
 routes.put("/admin/:id", AdminController.update);
 routes.delete("/admin", AdminController.destroy);
 
-export default routes;
+module.exports = routes;

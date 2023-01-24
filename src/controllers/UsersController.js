@@ -1,6 +1,9 @@
-import User from "../models/Users";
+/* import User from "../models/Users";
 import Subjects from "../models/Subjects";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcryptjs"; */
+const User = require("../models/Users")
+const Subjects = require("../models/Subjects")
+const bcrypt = require("bcryptjs")
 
 class UsersController {
 	async index(req, res) {
@@ -101,4 +104,4 @@ class UsersController {
 		}
 	}
 }
-export default new UsersController();
+module.exports = new UsersController();

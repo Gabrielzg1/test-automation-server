@@ -1,7 +1,14 @@
-import jwt from "jsonwebtoken";
-import Admin from "../models/Admin";
-import bcrypt from "bcryptjs"
-import authConfig from "../config/auth";
+//import jwt from "jsonwebtoken";
+//import Admin from "../models/Admin";
+//import bcrypt from "bcryptjs"
+//import authConfig from "../config/auth";
+const jwt = require("jsonwebtoken")
+const Admin = require("../models/Admin")
+const bcrypt = require("bcryptjs")
+const authConfig = require("../config/auth").default
+
+
+
 
 class AdminSessionController {
   async create(req, res) {
@@ -28,4 +35,4 @@ class AdminSessionController {
   }
 }
 
-export default new AdminSessionController();
+module.exports = new AdminSessionController();

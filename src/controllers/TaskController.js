@@ -9,19 +9,16 @@ import generateOutput from "../scripts/output/output-base";
 import generateUploadOutputs from "../scripts/output/output-upload";
 import { getOutputs } from "../scripts/input/getInput"; */
 
-const Users = require("../models/Users")
-const Task = require("../models/Task")
-const Subjects = require("../models/Subjects")
-const createTask = require("../scripts/folders/newTask")
-const createUserFolder = require("../scripts/folders/newUserFolder")
-const fs = require("fs-extra")
+const Users = require("../models/Users");
+const Task = require("../models/Task");
+const Subjects = require("../models/Subjects");
+const createTask = require("../scripts/folders/newTask");
+const createUserFolder = require("../scripts/folders/newUserFolder");
+const fs = require("fs-extra");
 
-const generateOutput = require("../scripts/output/output-base")
-const generateUploadOutputs = require("../scripts/output/output-upload")
-const getOutputs = require("../scripts/input/getInput").getOutputs
-
-
-
+const generateOutput = require("../scripts/output/output-base");
+const generateUploadOutputs = require("../scripts/output/output-upload");
+const getOutputs = require("../scripts/input/getInput").getOutputs;
 
 class TaskController {
 	async index(req, res) {
@@ -185,8 +182,8 @@ class TaskController {
 		}
 	}
 	async userSendFile(req, res) {
-		if (req.file) return res.status(200);
-		else return res.status(404);
+		if (!req.file) return res.status(404);
+		else return res.status(200);
 	}
 	async destroy(req, res) {
 		try {
@@ -196,10 +193,7 @@ class TaskController {
 			if (!subject) {
 				return res.status(404).json({ msg: "Subject not found" });
 			}
-			const task = await Task.findById(
-
-				id,
-			);
+			const task = await Task.findById(id);
 			if (!task) {
 				return res.status(404).json({ msg: "Task not found" });
 			}

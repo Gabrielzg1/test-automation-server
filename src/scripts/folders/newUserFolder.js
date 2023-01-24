@@ -12,7 +12,7 @@ module.exports = async (subject, taskName, id) => {
             fs.mkdirSync(ouputs);
         }
         for (let i = 1; i < 11; i++) {
-            await fs.writeFile(
+            fs.writeFile(
                 `./src/subjects/${subject}/${taskName}/out/upload/${id}/output_upload${i}.txt`,
                 " ",
                 (err) => {
@@ -20,6 +20,13 @@ module.exports = async (subject, taskName, id) => {
                 }
             );
         }
+        fs.writeFile(
+            `./src/subjects/${subject}/${taskName}/upload/${id}/main.py`,
+            " ",
+            (err) => {
+                if (err) console.log(err);
+            }
+        );
     } catch (err) {
         console.error(err);
     }

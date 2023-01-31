@@ -9,14 +9,12 @@ import generateOutput from "../scripts/output/output-base";
 import generateUploadOutputs from "../scripts/output/output-upload";
 import { getOutputs } from "../scripts/input/getInput"; */
 
-
 const Users = require("../models/Users");
 const Task = require("../models/Task");
 const Subjects = require("../models/Subjects");
 const createTask = require("../scripts/folders/newTask");
 const createUserFolder = require("../scripts/folders/newUserFolder");
 const fs = require("fs-extra");
-
 
 const generateOutput = require("../scripts/output/output-base");
 const generateUploadOutputs = require("../scripts/output/output-upload");
@@ -130,7 +128,7 @@ class TaskController {
 
 			// Generate the Base outputs
 			for (let i = 0; i < task.inputs.length; i++) {
-				await generateOutput(i + 1, subject.name, task.name);
+				generateOutput(i + 1, subject.name, task.name);
 			}
 			return res.status(200).json();
 		} catch (err) {

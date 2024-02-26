@@ -20,7 +20,7 @@ Este projeto foi desenvolvido utilizando as seguintes tecnologias e bibliotecas:
 
 ## Instalação
 
-Siga os passos abaixo para configurar o ambiente de desenvolvimento.
+Siga os passos abaixo para configurar o ambiente de desenvolvimento especificadas no arquivo: .env.example
 
 1. Clone este repositório:
 
